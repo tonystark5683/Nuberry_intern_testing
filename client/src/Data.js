@@ -5,22 +5,23 @@ export const StoreData = [
       Sales: 80000,
       departments:[
         {
-          label:"clothing",
+          department:"clothing",
           sales:300,
           subCategory:{
             cat1:150,
-            cat2:150
+            cat2:150,
+            
           }
         },
         {
-          label:"Accessories",
+          department:"Accessories",
           sales:500,
           subCategory:{
             cat1:300,
             cat2:200
           }
         },
-        {label:"Baby care",
+        {department:"Baby care",
         sales:800,
         subCategory:{
           cat1:300,
@@ -35,11 +36,11 @@ export const StoreData = [
     },
     {
       id: 2,
-      name: 'Titan',
+      name: 'Adyar',
       Sales: 45677,
       departments:[
         {
-          label:"clothing",
+          department:"clothing",
           sales:900,
           subCategory:{
             cat1:450,
@@ -48,7 +49,7 @@ export const StoreData = [
           }
         },
         {
-          label:"Accessories",
+          department:"Accessories",
           sales:600,
           subCategory:{
             cat1:300,
@@ -56,7 +57,7 @@ export const StoreData = [
             cat3:100
           }
         },
-        {label:"Baby care",
+        {department:"Baby care",
         sales:800,
         subCategory:{
           cat1:300,
@@ -70,11 +71,11 @@ export const StoreData = [
     },
     {
       id: 3,
-      name: 'Ajanta',
+      name: 'Shanti Colony',
       Sales: 78888,
       departments:[
         {
-          label:"clothing",
+          department:"clothing",
           sales:300,
           subCategory:{
             cat1:150,
@@ -83,14 +84,14 @@ export const StoreData = [
           }
         },
         {
-          label:"Accessories",
+          department:"Accessories",
           sales:500,
           subCategory:{
             cat1:300,
             cat2:200
           }
         },
-        {label:"Baby care",
+        {department:"Baby care",
         sales:700,
         subCategory:{
           cat1:300,
@@ -104,11 +105,11 @@ export const StoreData = [
     },
     {
       id: 4,
-      name: 'Virat_clothing',
+      name: 'Velachery',
       Sales: 90000,
       departments:[
         {
-          label:"clothing",
+          department:"clothing",
           sales:300,
           subCategory:{
             cat1:150,
@@ -116,14 +117,14 @@ export const StoreData = [
           }
         },
         {
-          label:"Accessories",
+          department:"Accessories",
           sales:500,
           subCategory:{
             cat1:300,
             cat2:200
           }
         },
-        {label:"Baby care",
+        {department:"Baby care",
         sales:700,
         subCategory:{
           cat1:300,
@@ -137,11 +138,11 @@ export const StoreData = [
     },
     {
       id: 5,
-      name: 'SRK_clothing',
+      name: 'Sarath Mall',
       Sales: 4300,
       departments:[
         {
-          label:"clothing",
+          department:"clothing",
           sales:300,
           subCategory:{
             cat1:150,
@@ -149,14 +150,14 @@ export const StoreData = [
           }
         },
         {
-          label:"Accessories",
+          department:"Accessories",
           sales:500,
           subCategory:{
             cat1:300,
             cat2:200
           }
         },
-        {label:"Baby care",
+        {department:"Baby care",
         sales:700,
         subCategory:{
           cat1:300,

@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import Chart from "chart.js/auto";
+
 import { Bar, getElementAtEvent } from "react-chartjs-2";
 import { StoreData } from "../Data";
-
+import Button from '@mui/material/Button';
 const ForecastGraph = () => {
   const chartref = useRef(null);
   const [index, setIndex] = useState([]);
@@ -29,7 +29,7 @@ const ForecastGraph = () => {
       index.length === 0
         ? {
             labels: StoreData[currindex].departments.map(
-              (departmentName) => departmentName.label
+              (departmentName) => departmentName.department
             ),
             datasets: [
               {
@@ -50,13 +50,15 @@ const ForecastGraph = () => {
           }
         : {
             labels: Object.keys(
-              StoreData[index[index.length - 1]].departments[currindex].subCategory
+              StoreData[index[index.length - 1]].departments[currindex]
+                .subCategory
             ),
             datasets: [
               {
                 label: "Department_Wise_sales",
                 data: Object.values(
-                  StoreData[index[index.length - 1]].departments[currindex].subCategory
+                  StoreData[index[index.length - 1]].departments[currindex]
+                    .subCategory
                 ),
               },
             ],
@@ -64,12 +66,12 @@ const ForecastGraph = () => {
     );
   };
 
-  const handleBackChange = ( currindex) => {
+  const handleBackChange = (currindex) => {
     setUserData(
       index.length === 2
         ? {
             labels: StoreData[currindex].departments.map(
-              (departmentName) => departmentName.label
+              (departmentName) => departmentName.department
             ),
             datasets: [
               {
@@ -114,23 +116,24 @@ const ForecastGraph = () => {
     const currindex = getElementAtEvent(chartref.current, e)[0].index;
 
     handleStateChange(currindex);
-    if (index.length< 2) {
+    if (index.length < 2) {
       setIndex((prevIndex) => [...prevIndex, currindex]);
     }
   };
-  console.log("count" ,index);
+  console.log("count", index);
   const handleBackClick = (e) => {
-    const indexVal=index.length-1
+    const indexVal = index.length - 1;
     handleBackChange(index[indexVal]);
     setIndex((prevIndex) => prevIndex.splice(indexVal, 1));
   };
 
   return (
-    <div className="App">
-      <div style={{ width: 700 }}>
+    <div className="App" style={{ display: "flex" }}>
+      <div style={{ width: 700, display: "flex", flexDirection: "column" }}>
+        
+        <Button variant="contained" onClick={handleBackClick} style={{ width: '100px', height: '40px' }}>Back</Button>
         <Bar ref={chartref} data={userData} onClick={handleClick} />
       </div>
-      <button onClick={handleBackClick}>Check the previous graph</button>
     </div>
   );
 };
