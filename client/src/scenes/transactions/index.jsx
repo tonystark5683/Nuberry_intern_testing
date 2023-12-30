@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useGetTransactionsQuery } from "state/api";
 import Header from "components/Header";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
-
+import Bystore from "components/quantityMonthly/Bystore";
 const Transactions = () => {
   const theme = useTheme();
 
@@ -54,9 +54,9 @@ const Transactions = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="TRANSACTIONS" subtitle="Entire list of transactions" />
-      <Box
+    <Box m=".5rem 1.5rem">
+      {/* <Header title="TRANSACTIONS" subtitle="Entire list of transactions" /> */}
+      {/* <Box
         height="80vh"
         sx={{
           "& .MuiDataGrid-root": {
@@ -103,7 +103,8 @@ const Transactions = () => {
             toolbar: { searchInput, setSearchInput, setSearch },
           }}
         />
-      </Box>
+      </Box> */}
+      <Bystore/>
     </Box>
   );
 };

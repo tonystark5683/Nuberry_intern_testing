@@ -39,27 +39,27 @@ const navItems = [
     icon: <HomeOutlined />,
   },
   {
-    text: "Details",
+    text: "Forecast By Quantity",
     icon: null,
   },
   {
-    text: "Products",
-    icon: <ShoppingCartOutlined />,
+    text: "Overview.",
+    icon: <PointOfSaleOutlined />,
   },
   {
-    text: "Customers",
-    icon: <Groups2Outlined />,
+    text: "Daily.",
+    icon: <TodayOutlined />,
   },
   {
-    text: "Transactions",
-    icon: <ReceiptLongOutlined />,
+    text: "Monthly.",
+    icon: <CalendarMonthOutlined />,
   },
   // {
   //   text: "Geography",
   //   icon: <PublicOutlined />,
   // },
   {
-    text: "Forecast",
+    text: "Forecast By Amount",
     icon: null,
   },
   {
@@ -74,21 +74,21 @@ const navItems = [
     text: "Monthly",
     icon: <CalendarMonthOutlined />,
   },
+  // {
+  //   text: "Quarterly",
+  //   icon: <PieChartOutlined />,
+  // },
   {
-    text: "Quarterly",
-    icon: <PieChartOutlined />,
+    text: "By Brand",
+    icon: null,
+  },
+  {
+    text: "Analysis",
+    icon: <TrendingUpOutlined />,
   },
   // {
-  //   text: "Management",
-  //   icon: null,
-  // },
-  // {
-  //   text: "Admin",
-  //   icon: <AdminPanelSettingsOutlined />,
-  // },
-  // {
   //   text: "Performance",
-  //   icon: <TrendingUpOutlined />,
+  //   icon: <AdminPanelSettingsOutlined />,
   // },
 ];
 
@@ -128,10 +128,10 @@ const Sidebar = ({
           }}
         >
           <Box width="100%">
-            <Box m="1.5rem 2rem 2rem 3rem">
+            <Box m="1.5rem 1rem 1rem 2rem">
               <FlexBetween color={theme.palette.secondary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
-                  <Typography variant="h4" fontWeight="bold">
+                  <Typography variant="h2" fontWeight="bold">
                     Nuberry
                   </Typography>
                 </Box>
@@ -146,7 +146,7 @@ const Sidebar = ({
               {navItems.map(({ text, icon }) => {
                 if (!icon) {
                   return (
-                    <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
+                    <Typography key={text} sx={{ m: "1.5rem 0 .2rem 1rem" }}>
                       {text}
                     </Typography>
                   );
@@ -161,6 +161,9 @@ const Sidebar = ({
                         setActive(lcText);
                       }}
                       sx={{
+                        display: "flex",
+                        alignItems: "center", 
+                        justifyItems:"center",
                         backgroundColor:
                           active === lcText
                             ? theme.palette.secondary[300]
@@ -173,7 +176,10 @@ const Sidebar = ({
                     >
                       <ListItemIcon
                         sx={{
-                          ml: "2rem",
+                          display: "flex",
+                          justifyContent:"center",
+                          alignItems: "center", 
+                          
                           color:
                             active === lcText
                               ? theme.palette.primary[600]
@@ -193,7 +199,7 @@ const Sidebar = ({
             </List>
           </Box>
 
-          <Box position="absolute" bottom="2rem">
+          {/* <Box position="absolute" bottom="1rem">
             <Divider />
             <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
               <Box
@@ -227,7 +233,7 @@ const Sidebar = ({
                 }}
               />
             </FlexBetween>
-          </Box>
+          </Box> */}
         </Drawer>
       )}
     </Box>

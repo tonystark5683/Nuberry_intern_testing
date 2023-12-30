@@ -2,38 +2,62 @@ import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useGetSalesQuery } from "state/api";
+import Chart from "chart.js/auto";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+Chart.register(ChartDataLabels);
 
-const BreakdownChart = ({ isDashboard = false }) => {
-  const { data, isLoading } = useGetSalesQuery();
+const BreakdownChart = ({ isDashboard = false , fetchdata , onChildValue}) => {
+  
   const theme = useTheme();
 
-  if (!data || isLoading) return "Loading...";
+  if (!fetchdata) return "Loading...";
 
-  const colors = [
-    theme.palette.secondary[500],
-    theme.palette.secondary[300],
-    theme.palette.secondary[300],
-    theme.palette.secondary[500],
-  ];
-  const formattedData = Object.entries(data.salesByCategory).map(
-    ([category, sales], i) => ({
-      id: category,
-      label: category,
-      value: sales,
-      color: colors[i],
-    })
-  );
+  const colors = ['#EC8F5E', '#FFCD4B', '#F1EB90', '#FECDA6', '#F9B572'];
 
+  const formattedData = fetchdata.map((item,index) => ({
+    id: item.StoreName,
+    label: item.StoreName,
+    value: Math.round(parseFloat(item.Amount)),
+    color: colors[index % colors.length],
+}));
+const totalAmount = fetchdata.reduce((sum, item) => sum + Math.round(parseFloat(item.Amount)), 0);
+
+const formattedTotalAmount = new Intl.NumberFormat('en-IN', {
+  style: 'currency',
+  currency: 'INR',
+  maximumFractionDigits: 0, // Remove decimal part
+  minimumFractionDigits: 0, // Ensure at least 0 decimal places
+  useGrouping: true, // Enable grouping separator
+}).format(totalAmount);
+
+console.log(formattedData)
   return (
     <Box
-      height={isDashboard ? "400px" : "100%"}
+      height={isDashboard ? "440px" : "100%"}
       width={undefined}
       minHeight={isDashboard ? "325px" : undefined}
       minWidth={isDashboard ? "325px" : undefined}
       position="relative"
     >
       <ResponsivePie
-        data={formattedData}
+         data={formattedData.map(item => ({
+          id: item.id,
+          label: item.label,
+          value: item.value,
+          color: item.color,
+        }))}
+        onClick={(event, slice) => {
+          const StoreName=event.label;
+          console.log("Click Event:", event.label,event.value);
+          if (onChildValue) {
+            onChildValue(StoreName);
+          }
+        }}
+        innerRadius={0.5}
+        padAngle={0.7}
+        cornerRadius={3}
+        activeOuterRadiusOffset={8}
+        borderWidth={1}
         theme={{
           axis: {
             domain: {
@@ -66,17 +90,15 @@ const BreakdownChart = ({ isDashboard = false }) => {
               color: theme.palette.primary.main,
             },
           },
+          
         }}
         colors={{ datum: "data.color" }}
         margin={
           isDashboard
-            ? { top: 40, right: 80, bottom: 100, left: 50 }
-            : { top: 40, right: 80, bottom: 80, left: 80 }
+            ? { top: 10, right: 45, bottom: 70, left: 30 }
+            : { top: 10, right: 45, bottom: 50, left: 55 }
         }
         sortByValue={true}
-        innerRadius={0.45}
-        activeOuterRadiusOffset={8}
-        borderWidth={1}
         borderColor={{
           from: "color",
           modifiers: [["darker", 0.2]],
@@ -95,21 +117,21 @@ const BreakdownChart = ({ isDashboard = false }) => {
             anchor: "bottom",
             direction: "row",
             justify: false,
-            translateX: isDashboard ? 20 : 0,
-            translateY: isDashboard ? 50 : 56,
-            itemsSpacing: 0,
-            itemWidth: 85,
-            itemHeight: 18,
+            translateX: isDashboard ? 0 : 0,
+            translateY: isDashboard ? 36 : 50,
+            itemsSpacing: 2.5,
+            itemWidth: 65,
+            itemHeight: 30,
             itemTextColor: "#999",
-            itemDirection: "left-to-right",
+            itemDirection: "top-to-bottom",
             itemOpacity: 1,
-            symbolSize: 18,
-            symbolShape: "circle",
+            symbolSize: 15,
+            symbolShape: "triangle",
             effects: [
               {
                 on: "hover",
                 style: {
-                  itemTextColor: theme.palette.primary[500],
+                  itemTextColor: 'white',
                 },
               },
             ],
@@ -130,7 +152,7 @@ const BreakdownChart = ({ isDashboard = false }) => {
         }}
       >
         <Typography variant="h6">
-          {!isDashboard && "Total:"} ${data.yearlySalesTotal}
+         {formattedTotalAmount}
         </Typography>
       </Box>
     </Box>

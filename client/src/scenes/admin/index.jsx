@@ -4,7 +4,7 @@ import { useGetAdminsQuery } from "state/api";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-
+import ForecastTable from "components/BrandAnalysis/ForecastTable";
 const Admin = () => {
   const theme = useTheme();
   const { data, isLoading } = useGetAdminsQuery();
@@ -51,9 +51,9 @@ const Admin = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="ADMINS" subtitle="Managing admins and list of admins" />
-      <Box
+    <Box m=".5rem 1.5rem">
+      {/* <Header title="ADMINS" subtitle="Managing admins and list of admins" /> */}
+      {/* <Box
         mt="40px"
         height="75vh"
         sx={{
@@ -90,6 +90,9 @@ const Admin = () => {
             ColumnMenu: CustomColumnMenu,
           }}
         />
+      </Box> */}
+      <Box>
+        <ForecastTable />
       </Box>
     </Box>
   );

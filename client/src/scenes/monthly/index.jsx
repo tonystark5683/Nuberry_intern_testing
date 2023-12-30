@@ -3,7 +3,7 @@ import { Box, useTheme } from "@mui/material";
 import Header from "components/Header";
 import { ResponsiveLine } from "@nivo/line";
 import { useGetSalesQuery } from "state/api";
-
+import Bystore from "components/monthly/Bystore";
 const Monthly = () => {
   const { data } = useGetSalesQuery();
   const theme = useTheme();
@@ -39,10 +39,10 @@ const Monthly = () => {
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="MONTHLY SALES" subtitle="Chart of monthlysales" />
+    <Box m=".5rem 1.5rem">
+      <Header title="MONTHLY SALES" />
       <Box height="75vh">
-        {data ? (
+        {/* {data ? (
           <ResponsiveLine
             data={formattedData}
             theme={{
@@ -147,7 +147,8 @@ const Monthly = () => {
           />
         ) : (
           <>Loading...</>
-        )}
+        )} */}
+        <Bystore/>
       </Box>
     </Box>
   );

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-
+import Chart from "chart.js/auto";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
 import { StoreData } from "../Data";
 import Button from '@mui/material/Button';
@@ -128,7 +128,7 @@ const ForecastGraph = () => {
   };
 
   return (
-    <div className="App" style={{ display: "flex" }}>
+    <div className="App" >
       <div style={{ width: 700, display: "flex", flexDirection: "column" }}>
         
         <Button variant="contained" onClick={handleBackClick} style={{ width: '100px', height: '40px' }}>Back</Button>

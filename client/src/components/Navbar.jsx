@@ -51,7 +51,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
             backgroundColor={theme.palette.background.alt}
             borderRadius="9px"
             gap="3rem"
-            p="0.1rem 1.5rem"
+            p="0.1rem 1rem"
           >
             <InputBase placeholder="Search..." />
             <IconButton>
@@ -64,14 +64,14 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
         <FlexBetween gap="1.5rem">
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
-              <DarkModeOutlined sx={{ fontSize: "25px" }} />
+              <DarkModeOutlined sx={{ fontSize: "20px" }} />
             ) : (
-              <LightModeOutlined sx={{ fontSize: "25px" }} />
+              <LightModeOutlined sx={{ fontSize: "20px" }} />
             )}
           </IconButton>
-          <IconButton>
+          {/* <IconButton>
             <SettingsOutlined sx={{ fontSize: "25px" }} />
-          </IconButton>
+          </IconButton> */}
 
           <FlexBetween>
             <Button
@@ -81,28 +81,28 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                 justifyContent: "space-between",
                 alignItems: "center",
                 textTransform: "none",
-                gap: "1rem",
+                gap: ".5rem",
               }}
             >
               <Box
                 component="img"
                 alt="profile"
                 src={profileImage}
-                height="32px"
-                width="32px"
+                height="22px"
+                width="22px"
                 borderRadius="50%"
                 sx={{ objectFit: "cover" }}
               />
               <Box textAlign="left">
                 <Typography
                   fontWeight="bold"
-                  fontSize="0.85rem"
+                  fontSize="0.35rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
                   {user.name}
                 </Typography>
                 <Typography
-                  fontSize="0.75rem"
+                  fontSize="0.35rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
                   {user.occupation}
@@ -116,7 +116,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
               anchorEl={anchorEl}
               open={isOpen}
               onClose={handleClose}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
             >
               <MenuItem onClick={handleClose}>Log Out</MenuItem>
             </Menu>
