@@ -3,6 +3,7 @@ import { baseColors } from "theme";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
+import FlexBetween from "components/FlexBetween";
 import {
   Box,
   Button,
@@ -127,7 +128,19 @@ const ByBrandName = ({
     backgroundColor: baseColors[index + 1],
     borderColor: "rgba(75, 192, 192, 1)",
     borderWidth: 1,
+    maxBarThickness: 100,
   }));
+  const totalAmount = groupedData.reduce(
+    (sum, item) => sum + Math.round(parseFloat(item.Amount)),
+    0
+  );
+  const formattedTotalAmount = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0, // Remove decimal part
+    minimumFractionDigits: 0, // Ensure at least 0 decimal places
+    useGrouping: true, // Enable grouping separator
+  }).format(totalAmount);
   const barChart = groupedData[0] ? (
     <Bar
       data={{
@@ -209,20 +222,43 @@ const ByBrandName = ({
       gridAutoRows="auto" // Adjust the row size as needed
       gap="20px"
     >
-      <Button
-        variant="contained"
-        onClick={handleSortClick}
-        style={{ marginRight: "8px" }}
-      >
-        Sort
-      </Button>
-      <Button variant="contained" onClick={handleBackButtonClick}>
-        Back
-      </Button>
-
       <Box
         gridColumn="span 12"
         gridRow="span 1"
+        display="flex"
+        justifyContent="space-between"
+        borderRadius="0.55rem"
+      >
+        <div>
+          <Button variant="contained" onClick={handleSortClick} style={{ marginRight: "8px" }}>
+            Sort
+          </Button>
+          <Button variant="contained" onClick={handleBackButtonClick}>
+            Back
+          </Button>
+        </div>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+          backgroundColor={theme.palette.background.alt}
+          borderRadius="0.55rem"
+          p=".2rem .5rem"
+        >
+          <FlexBetween gap="1.2rem">
+            <Typography variant="h4">Overall Sales: </Typography>
+            <Typography
+              variant="h5"
+              sx={{ color: theme.palette.secondary.light }}
+            >
+              {formattedTotalAmount}
+            </Typography>
+          </FlexBetween>
+        </Box>
+      </Box>
+      <Box
+        gridColumn="span 12"
+        gridRow="span 2"
         backgroundColor={theme.palette.background.alt}
         p=".2rem"
         borderRadius="0.55rem"

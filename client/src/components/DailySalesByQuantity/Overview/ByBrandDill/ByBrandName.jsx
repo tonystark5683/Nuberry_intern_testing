@@ -233,7 +233,7 @@ const ByBrandName = ({
           },
           title: {
             display: true,
-            text: "Total Forecasted Sales By Shop",
+            text: "Total Forecasted Quantity By BrandName",
             color: "white",
             font: { size: "10" },
           },
@@ -372,7 +372,7 @@ const ByBrandName = ({
             backgroundColor={theme.palette.background.alt}
             p=".2rem"
             borderRadius="0.55rem"
-            sx={{ height: "100vh", width: "100%" }}
+            sx={{ height: "80vh", width: "100%" }}
           >
             {lineChart}
           </Box>

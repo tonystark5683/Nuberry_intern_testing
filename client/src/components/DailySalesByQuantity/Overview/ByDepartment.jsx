@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { BarChart } from "@mui/x-charts/BarChart";
+import FlexBetween from "components/FlexBetween";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -168,6 +168,11 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
     console.error("storeData is null or empty");
   }
   // console.log(labels,datasets)
+  const totalAmount = groupedData.reduce(
+    (sum, item) => sum + Math.round(parseFloat(item.Quantity)),
+    0
+  );
+  const formattedTotalAmount = new Intl.NumberFormat("en-IN").format(totalAmount);
   const lineChart = groupedData[0] ? (
     <Line
       data={{
@@ -226,7 +231,7 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
           },
           title: {
             display: true,
-            text: "Total Forecasted Sales By Shop",
+            text: "Total Forecasted Quantity By Department",
             color: "white",
             font: { size: "10" },
           },
@@ -345,29 +350,58 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
         />
       ) : (
         <Box
-          mt="20px"
-          display="grid"
-          gridTemplateColumns="repeat(12, 1fr)"
-          gridAutoRows="auto" // Adjust the row size as needed
-          gap="20px"
+        mt="20px"
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="auto" // Adjust the row size as needed
+        gap="20px"
+      >
+          <Box
+          gridColumn="span 12"
+          gridRow="span 1"
+          display="flex"
+          justifyContent="space-between"
+          borderRadius="0.55rem"
         >
-          <Button variant="contained" onClick={handleBackButtonClick}>
-            Back
-          </Button>
+          <div>
+            
+            <Button variant="contained" onClick={handleBackButtonClick}>
+              Back
+            </Button>
+          </div>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+            p=".2rem .5rem"
+          >
+            <FlexBetween gap="1.2rem">
+              <Typography variant="h4">Overall Quantity: </Typography>
+              <Typography
+                variant="h5"
+                sx={{ color: theme.palette.secondary.light }}
+              >
+               {formattedTotalAmount}
+              </Typography>
+            </FlexBetween>
+          </Box>
+        </Box>
           <Box
             gridColumn="span 12"
-            gridRow="span 1"
+            gridRow="span 2"
             backgroundColor={theme.palette.background.alt}
             p=".2rem"
             borderRadius="0.55rem"
-            sx={{ height: "100vh", width: "100%" }}
+            sx={{ height: "80vh", width: "100%" }}
           >
             {lineChart}
           </Box>
 
           <Box
             gridColumn="span 12"
-            gridRow="span 2"
+            gridRow="span 3"
             backgroundColor={theme.palette.background.alt}
             p=".2rem"
             borderRadius="0.55rem"

@@ -351,43 +351,44 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
         />
       ) : (
         <Box
-          mt="20px"
-          display="grid"
-          gridTemplateColumns="repeat(12, 1fr)"
-          gridAutoRows="auto" // Adjust the row size as needed
-          gap="20px"
-        >
+        mt="20px"
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="auto" // Adjust the row size as needed
+        gap="20px"
+      >
           <Box
-            gridColumn="span 12"
-            gridRow="span 1"
+          gridColumn="span 12"
+          gridRow="span 1"
+          display="flex"
+          justifyContent="space-between"
+          borderRadius="0.55rem"
+        >
+          <div>
+            
+            <Button variant="contained" onClick={handleBackButtonClick}>
+              Back
+            </Button>
+          </div>
+          <Box
             display="flex"
+            flexDirection="column"
             justifyContent="space-between"
+            backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
+            p=".2rem .5rem"
           >
-            <div>
-              <Button variant="contained" onClick={handleBackButtonClick}>
-                Back
-              </Button>
-            </div>
-            <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="space-between"
-              backgroundColor={theme.palette.background.alt}
-              borderRadius="0.55rem"
-              p=".2rem .5rem"
-            >
-              <FlexBetween gap="1.2rem">
-                <Typography variant="h4">Overall Sales: </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{ color: theme.palette.secondary.light }}
-                >
-                 {formattedTotalAmount}
-                </Typography>
-              </FlexBetween>
-            </Box>
+            <FlexBetween gap="1.2rem">
+              <Typography variant="h4">Overall Sales: </Typography>
+              <Typography
+                variant="h5"
+                sx={{ color: theme.palette.secondary.light }}
+              >
+               {formattedTotalAmount}
+              </Typography>
+            </FlexBetween>
           </Box>
+        </Box>
           <Box
             gridColumn="span 12"
             gridRow="span 2"

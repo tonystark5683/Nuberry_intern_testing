@@ -157,7 +157,7 @@ const ByProductCategory = ({
     );
 
     // Take only the top ten categories
-    const topTenCategories = sortedCategories.slice(0, 20);
+    const topTenCategories = sortedCategories.slice(0, 10);
 
     // Update storeData with only the top ten categories
     storeData[date] = Object.fromEntries(topTenCategories);
@@ -255,7 +255,7 @@ const ByProductCategory = ({
           },
           title: {
             display: true,
-            text: "Total Forecasted Sales By Shop",
+            text: "Total Forecasted Quantity By ProductCategory",
             color: "white",
             font: { size: "10" },
           },
@@ -439,7 +439,7 @@ const ByProductCategory = ({
                 backgroundColor={theme.palette.background.alt}
                 p=".2rem"
                 borderRadius="0.55rem"
-                sx={{ height: "100vh", width: "100%" }}
+                sx={{ height: "80vh", width: "100%" }}
               >
                 {lineChart}
               </Box>

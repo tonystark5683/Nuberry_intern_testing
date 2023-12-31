@@ -213,7 +213,7 @@ const ByProductCategory = ({
     );
 
     // Take only the top ten categories
-    const topTenCategories = sortedCategories.slice(0, 20);
+    const topTenCategories = sortedCategories.slice(0, 10);
 
     // Update storeData with only the top ten categories
     storeData[date] = Object.fromEntries(topTenCategories);
@@ -507,15 +507,7 @@ const ByProductCategory = ({
               borderRadius="0.55rem"
               p=".2rem .5rem"
             >
-              <FlexBetween gap="1.2rem">
-                <Typography variant="h4">Overall Sales: </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{ color: theme.palette.secondary.light }}
-                >
-                  {formattedTotalAmount}
-                </Typography>
-              </FlexBetween>
+              
             </Box>
           </Box>
         </Box>

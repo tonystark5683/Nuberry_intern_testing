@@ -133,6 +133,7 @@ const GroupedDataBrandname = ({
             backgroundColor: "rgba(0, 217, 255, 0.6)",
             borderColor: "rgba(0, 217, 255, 1)",
             borderWidth: 1,
+            maxBarThickness: 100,
           },
           // {
           //   data: groupedData.map((data) => Math.round(parseFloat(data.Quantity))),
@@ -226,7 +227,11 @@ const GroupedDataBrandname = ({
         borderRadius="0.55rem"
       >
         <div>
-          <Button variant="contained" onClick={handleSortClick} style={{ marginRight: "8px" }}>
+          <Button
+            variant="contained"
+            onClick={handleSortClick}
+            style={{ marginRight: "8px" }}
+          >
             Sort
           </Button>
           <Button variant="contained" onClick={handleBackButtonClick}>

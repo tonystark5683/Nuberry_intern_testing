@@ -3,6 +3,7 @@ import ByProductCategory from "./ByProductCategory";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
+import FlexBetween from "components/FlexBetween";
 import {
   Box,
   Button,
@@ -142,6 +143,12 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
     borderColor: "rgba(75, 192, 192, 1)",
     borderWidth: 1,
   }));
+  const totalQuantiy = groupedData.reduce(
+    (sum, item) => sum + Math.round(parseFloat(item.Quantity)),
+    0
+  );
+  const formattedTotalQuantity = new Intl.NumberFormat("en-IN").format(totalQuantiy);
+  
   const barChart = groupedData[0] ? (
     <Bar
       data={{
@@ -226,33 +233,61 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
         />
       ) : (
         <Box
-          mt="20px"
-          display="grid"
-          gridTemplateColumns="repeat(12, 1fr)"
-          gridAutoRows="auto" // Adjust the row size as needed
-          gap="20px"
+        mt="20px"
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="auto" // Adjust the row size as needed
+        gap="20px"
+      >
+        <Box
+          gridColumn="span 12"
+          gridRow="span 1"
+          display="flex"
+          justifyContent="space-between"
+          borderRadius="0.55rem"
         >
-          <Button
-            variant="contained"
-            onClick={handleSortClick}
-            
-          >
-            Sort
-          </Button>
-          <Button variant="contained" onClick={handleBackButtonClick}>
-            Back
-          </Button>
+          <div>
+            <Button
+              variant="contained"
+              onClick={handleSortClick}
+              style={{ marginRight: "8px" }}
+            >
+              Sort
+            </Button>
+            <Button variant="contained" onClick={handleBackButtonClick}>
+              Back
+            </Button>
+          </div>
           <Box
-            gridColumn="span 12"
-            gridRow="span 1"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
             backgroundColor={theme.palette.background.alt}
-            p=".2rem"
             borderRadius="0.55rem"
-            sx={{ height: "80vh", width: "100%", mb: 5 }}
+            p=".2rem .5rem"
           >
-            {barChart}
+            <FlexBetween gap="1.2rem">
+              <Typography variant="h4">Overall Quantity: </Typography>
+              <Typography
+                variant="h5"
+                sx={{ color: theme.palette.secondary.light }}
+              >
+               {formattedTotalQuantity}
+              </Typography>
+            </FlexBetween>
           </Box>
         </Box>
+        <Box
+          gridColumn="span 12"
+          gridRow="span 2"
+          backgroundColor={theme.palette.background.alt}
+          p=".2rem"
+          borderRadius="0.55rem"
+          sx={{ height: "80vh", width: "100%", mb: 5 }}
+        >
+          {barChart}
+        </Box>
+      </Box>
       )}
     </div>
   );

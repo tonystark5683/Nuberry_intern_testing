@@ -203,6 +203,7 @@ const ForecastTable = () => {
             backgroundColor: "rgba(0, 217, 255, 0.6)",
             borderColor: "rgba(0, 217, 255, 1)",
             borderWidth: 1,
+           
           },
           // {
           //   data: groupedData.map((data) => Math.round(parseFloat(data.Quantity))),
@@ -272,7 +273,6 @@ const ForecastTable = () => {
               maxRotation: 90, // Set maxRotation to 90 degrees for vertical ticks
               minRotation: 90,
             },
-            axisColor: "rgb(255, 99, 132)",
           },
         },
       }}
@@ -339,7 +339,6 @@ const ForecastTable = () => {
                   <Typography variant="h4">Overall Sales: </Typography>
                   <Typography
                     variant="h5"
-                    
                     sx={{ color: theme.palette.secondary.light }}
                   >
                     {formattedTotalAmount}

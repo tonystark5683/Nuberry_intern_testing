@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchForecastAsync, selectForecast } from "../../../forecastSlice";
-import { BarChart } from "@mui/x-charts/BarChart";
+import FlexBetween from "components/FlexBetween";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -197,7 +197,11 @@ const ByStore = () => {
     console.log("storeData is null or empty");
   }
   // console.log(labels,datasets)
-
+  const totalAmount = groupedData.reduce(
+    (sum, item) => sum + Math.round(parseFloat(item.Quantity)),
+    0
+  );
+  const formattedTotalAmount = new Intl.NumberFormat("en-IN").format(totalAmount);
   const lineChart = groupedData[0] ? (
     <Line
       data={{
@@ -256,7 +260,7 @@ const ByStore = () => {
           },
           title: {
             display: true,
-            text: "Total Forecasted Sales By Shop",
+            text: "Total Forecasted Quantity By Shop",
             color: "white",
             font: { size: "10" },
           },
@@ -373,39 +377,67 @@ const ByStore = () => {
         />
       ) : (
         <Box
-          mt="20px"
-          display="grid"
-          gridTemplateColumns="repeat(12, 1fr)"
-          gridAutoRows="auto" // Adjust the row size as needed
-          gap="20px"
-        >
-          <Box
-            gridColumn="span 12"
-            gridRow="span 1"
-            backgroundColor={theme.palette.background.alt}
-            p=".2rem"
-            borderRadius="0.55rem"
-            sx={{ height: "100vh", width: "100%" }}
+            mt="20px"
+            display="grid"
+            gridTemplateColumns="repeat(12, 1fr)"
+            gridAutoRows="auto" // Adjust the row size as needed
+            gap="20px"
           >
-            {lineChart}
+            <Box
+              gridColumn="span 12"
+              gridRow="span 1"
+              display="flex"
+              justifyContent="end"
+              borderRadius="0.55rem"
+            >
+              
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
+                backgroundColor={theme.palette.background.alt}
+                borderRadius="0.55rem"
+                p=".2rem .5rem"
+              >
+                <FlexBetween gap="1.2rem">
+                  <Typography variant="h4">Overall Quantity: </Typography>
+                  <Typography
+                    variant="h5"
+                    
+                    sx={{ color: theme.palette.secondary.light }}
+                  >
+                    {formattedTotalAmount}
+                  </Typography>
+                </FlexBetween>
+              </Box>
+            </Box>
+            <Box
+              gridColumn="span 12"
+              gridRow="span 2"
+              backgroundColor={theme.palette.background.alt}
+              p=".2rem"
+              borderRadius="0.55rem"
+              sx={{ height: "80vh", width: "100%" }}
+            >
+              {lineChart}
+            </Box>
+            <Box
+              gridColumn="span 12"
+              gridRow="span 3"
+              backgroundColor={theme.palette.background.alt}
+              p=".2rem"
+              borderRadius="0.55rem"
+              sx={{ height: 400, mb: 5 }}
+            >
+              <DataGrid
+                rows={dataGridRows}
+                columns={dataGridColumns}
+                components={{
+                  Toolbar: GridToolbar,
+                }}
+              />
+            </Box>
           </Box>
-          <Box
-            gridColumn="span 12"
-            gridRow="span 2"
-            backgroundColor={theme.palette.background.alt}
-            p=".2rem"
-            borderRadius="0.55rem"
-            sx={{ height: 400, mb: 5 }}
-          >
-            <DataGrid
-              rows={dataGridRows}
-              columns={dataGridColumns}
-              components={{
-                Toolbar: GridToolbar,
-              }}
-            />
-          </Box>
-        </Box>
       )}
     </div>
   );

@@ -2,13 +2,11 @@
 import React, { useEffect, useState,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchForecastAsync, selectForecast } from '../../forecastSlice';
-import { BarChart } from '@mui/x-charts/BarChart';
-import { Line } from "react-chartjs-2";
+import FlexBetween from 'components/FlexBetween';
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar,getElementAtEvent } from "react-chartjs-2";
 import GoupedDataStore from './GoupedDataStore';
-import { baseColors } from 'theme';
 import {
   Box,
   Button,
@@ -166,7 +164,17 @@ const dispatch = useDispatch();
     // This block will run every time labelvalue changes
     // console.log("Labelvalue", labelvalue);
   }, [labelvalue]);
-  
+  const totalAmount = groupedData.reduce(
+    (sum, item) => sum + Math.round(parseFloat(item.Amount)),
+    0
+  );
+  const formattedTotalAmount = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0, // Remove decimal part
+    minimumFractionDigits: 0, // Ensure at least 0 decimal places
+    useGrouping: true, // Enable grouping separator
+  }).format(totalAmount);
   const barChart = groupedData[0] ? (
     <Bar
       data={{
@@ -287,27 +295,53 @@ const dispatch = useDispatch();
           <GoupedDataStore originalData={originalData} labelvalue={labelvalue} onBackButtonClick={handleBackButtonClick}/>
         ) : (
           <Box
-            mt="20px"
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gridAutoRows="auto" // Adjust the row size as needed
-            gap="20px"
+          mt="20px"
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="auto" // Adjust the row size as needed
+          gap="20px"
+        >
+          <Box
+            gridColumn="span 12"
+            gridRow="span 1"
+            display="flex"
+            justifyContent="space-between"
+            borderRadius="0.55rem"
           >
-            <Button variant="contained" onClick={handleSortClick} >Sort</Button>
-            
+            <Button variant="contained" onClick={handleSortClick}>
+              Sort
+            </Button>
             <Box
-              gridColumn="span 12"
-              gridRow="span 1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
               backgroundColor={theme.palette.background.alt}
-              p=".2rem"
               borderRadius="0.55rem"
-              sx={{ height: "80vh", width: "100%" ,mb:5}}
+              p=".2rem .5rem"
             >
-              {barChart}
+              <FlexBetween gap="1.2rem">
+                <Typography variant="h4">Overall Sales: </Typography>
+                <Typography
+                  variant="h5"
+                  
+                  sx={{ color: theme.palette.secondary.light }}
+                >
+                  {formattedTotalAmount}
+                </Typography>
+              </FlexBetween>
             </Box>
-            
-            </Box>
-            
+          </Box>
+          <Box
+            gridColumn="span 12"
+            gridRow="span 2"
+            backgroundColor={theme.palette.background.alt}
+            p=".2rem"
+            borderRadius="0.55rem"
+            sx={{ height: "80vh", width: "100%", mb: 5 }}
+          >
+            {barChart}
+          </Box>
+        </Box>
         )}
       
     </div>

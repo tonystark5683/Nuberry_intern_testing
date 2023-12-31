@@ -3,6 +3,7 @@ import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar, getElementAtEvent } from "react-chartjs-2";
 import GroupedDataDepartment from "./GroupedDataDepartment";
+import FlexBetween from "components/FlexBetween";
 import {
   Box,
   Button,
@@ -105,6 +106,17 @@ const GroupedDataStore = ({ originalData, labelvalue,onBackButtonClick }) => {
   const handleBackButtonClick = () => {
     onBackButtonClick();
   };
+  const totalAmount = groupedData.reduce(
+    (sum, item) => sum + Math.round(parseFloat(item.Amount)),
+    0
+  );
+  const formattedTotalAmount = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0, // Remove decimal part
+    minimumFractionDigits: 0, // Ensure at least 0 decimal places
+    useGrouping: true, // Enable grouping separator
+  }).format(totalAmount);
   const barChart = groupedData[0] ? (
     <Bar
       data={{
@@ -214,30 +226,62 @@ const GroupedDataStore = ({ originalData, labelvalue,onBackButtonClick }) => {
         selectedDepartment={labelvalue_Department}
         handleBackButtonClick_Department={handleBackButtonClick_Department}
       ></GroupedDataDepartment> ) : (
-        
-            <Box
-            mt="20px"
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gridAutoRows="auto" // Adjust the row size as needed
-            gap="20px"
+        <Box
+          mt="20px"
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="auto" // Adjust the row size as needed
+          gap="20px"
+        >
+          <Box
+            gridColumn="span 12"
+            gridRow="span 1"
+            display="flex"
+            justifyContent="space-between"
+            borderRadius="0.55rem"
           >
-              
-            <Button variant="contained" onClick={handleSortClick} style={{ marginRight: '8px' }} >Sort</Button>
-            <Button variant="contained" onClick={handleBackButtonClick} >Back</Button>
-            
+            <div>
+              <Button
+                variant="contained"
+                onClick={handleSortClick}
+                style={{ marginRight: "8px" }}
+              >
+                Sort
+              </Button>
+              <Button variant="contained" onClick={handleBackButtonClick}>
+                Back
+              </Button>
+            </div>
             <Box
-              gridColumn="span 12"
-              gridRow="span 1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
               backgroundColor={theme.palette.background.alt}
-              p=".2rem"
               borderRadius="0.55rem"
-              sx={{ height: "80vh", width: "100%",mb:5 }}
+              p=".2rem .5rem"
             >
-             {barChart}
+              <FlexBetween gap="1.2rem">
+                <Typography variant="h4">Overall Sales: </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{ color: theme.palette.secondary.light }}
+                >
+                 {formattedTotalAmount}
+                </Typography>
+              </FlexBetween>
             </Box>
-            
-            </Box>
+          </Box>
+          <Box
+            gridColumn="span 12"
+            gridRow="span 2"
+            backgroundColor={theme.palette.background.alt}
+            p=".2rem"
+            borderRadius="0.55rem"
+            sx={{ height: "80vh", width: "100%", mb: 5 }}
+          >
+            {barChart}
+          </Box>
+        </Box>
         )}
     </Box>
   );
