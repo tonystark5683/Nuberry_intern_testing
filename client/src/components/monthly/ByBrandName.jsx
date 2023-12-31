@@ -94,6 +94,38 @@ const ByBrandName = ({
     productCategoryNameValue,
   ]);
   // console.log(groupedData);
+  const totalAmountByMonth = {};
+
+  groupedData.forEach((item) => {
+    const month = item.Month;
+
+    if (!totalAmountByMonth[month]) {
+      totalAmountByMonth[month] = 0;
+    }
+
+    totalAmountByMonth[month] += item.Amount || 0;
+  });
+
+  // Render total amounts for each month
+  const renderTotalAmounts = () => {
+    return Object.entries(totalAmountByMonth).map(([month, amount]) => (
+      <FlexBetween key={month} gap="1.2rem">
+        <Typography variant="h5">{month}</Typography>
+        <Typography  variant="h6"
+                  sx={{ color: theme.palette.secondary.light }}>
+          {new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            maximumFractionDigits: 0, // Remove decimal part
+            minimumFractionDigits: 0, // Ensure at least 0 decimal places
+            useGrouping: true, // Enable grouping separator
+          }).format(amount)}
+        </Typography>
+      </FlexBetween>
+    ));
+  };
+
+  console.log(totalAmountByMonth);
   const handleSortClick = () => {
     // Sort the data based on the "Amount" property
     const newSortedData = groupedData
@@ -262,10 +294,21 @@ const ByBrandName = ({
         backgroundColor={theme.palette.background.alt}
         p=".2rem"
         borderRadius="0.55rem"
-        sx={{ height: "80vh", width: "100%", mb: 5 }}
+        sx={{ height: "80vh", width: "100%"}}
       >
         {barChart}
       </Box>
+      <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              backgroundColor={theme.palette.background.alt}
+              borderRadius="0.55rem"
+              p=".2rem .5rem"
+              marginBottom={5}
+            >
+            {renderTotalAmounts()}
+          </Box>
     </Box>
   );
 };

@@ -84,6 +84,33 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
   }, [originalData, storeNameValue]);
 
   // console.log(groupedData);
+  const totalQuantityByMonth = {};
+
+  groupedData.forEach((item) => {
+    const month = item.Month;
+
+    if (!totalQuantityByMonth[month]) {
+      totalQuantityByMonth[month] = 0;
+    }
+
+    totalQuantityByMonth[month] += item.Quantity || 0;
+  });
+
+  // Render total amounts for each month
+  const renderTotalAmounts = () => {
+    return Object.entries(totalQuantityByMonth).map(([month, quantity]) => (
+      <FlexBetween key={month} gap="1.2rem">
+        <Typography variant="h5">{month}</Typography>
+        <Typography  variant="h6"
+                  sx={{ color: theme.palette.secondary.light }}>
+          {new Intl.NumberFormat("en-IN").format(quantity)}
+        </Typography>
+      </FlexBetween>
+    ));
+  };
+
+  console.log(totalQuantityByMonth);
+
   const handleSortClick = () => {
     // Sort the data based on the "Amount" property
     const newSortedData = groupedData
@@ -283,10 +310,21 @@ const ByDepartment = ({ originalData, storeNameValue, onBackButtonClick }) => {
           backgroundColor={theme.palette.background.alt}
           p=".2rem"
           borderRadius="0.55rem"
-          sx={{ height: "80vh", width: "100%", mb: 5 }}
+          sx={{ height: "80vh", width: "100%"}}
         >
           {barChart}
         </Box>
+        <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              backgroundColor={theme.palette.background.alt}
+              borderRadius="0.55rem"
+              p=".2rem .5rem"
+              marginBottom={5}
+            >
+            {renderTotalAmounts()}
+          </Box>
       </Box>
       )}
     </div>

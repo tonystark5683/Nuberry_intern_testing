@@ -92,7 +92,37 @@ const ByProductCategory = ({
     // Call the grouping logic when the original data or selectedStore or selectedDepartment changes
     groupData();
   }, [originalData, storeNameValue, departmentNameValue]);
+  const totalAmountByMonth = {};
 
+  groupedData.forEach((item) => {
+    const month = item.Month;
+
+    if (!totalAmountByMonth[month]) {
+      totalAmountByMonth[month] = 0;
+    }
+
+    totalAmountByMonth[month] += item.Amount || 0;
+  });
+
+  // Render total amounts for each month
+  const renderTotalAmounts = () => {
+    return Object.entries(totalAmountByMonth).map(([month, amount]) => (
+      <FlexBetween key={month} gap="1.2rem">
+        <Typography variant="h5">{month}</Typography>
+        <Typography variant="h6" sx={{ color: theme.palette.secondary.light }}>
+          {new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            maximumFractionDigits: 0, // Remove decimal part
+            minimumFractionDigits: 0, // Ensure at least 0 decimal places
+            useGrouping: true, // Enable grouping separator
+          }).format(amount)}
+        </Typography>
+      </FlexBetween>
+    ));
+  };
+
+  console.log(totalAmountByMonth);
   //   console.log(groupedData);
   const handleSortClick = () => {
     // Sort the data based on the "Amount" property
@@ -141,17 +171,17 @@ const ByProductCategory = ({
     const totalAmountA = groupedData
       .filter((item) => item.ProductCategoryName === a)
       .reduce((total, item) => total + item.Amount, 0);
-  
+
     const totalAmountB = groupedData
       .filter((item) => item.ProductCategoryName === b)
       .reduce((total, item) => total + item.Amount, 0);
-  
+
     return totalAmountB - totalAmountA;
   });
-  
+
   // Take only the top ten product categories
   const topTenProductCategories = sortedProductCategories.slice(0, 20);
-  
+
   // Prepare data for the chart
   const datasets = topTenProductCategories.map((productCategory, index) => ({
     label: productCategory,
@@ -267,7 +297,7 @@ const ByProductCategory = ({
               color: theme.palette.secondary[200],
               font: { size: "10" },
               maxRotation: 90,
-              minRotation:90, // Set maxRotation to 90 degrees for vertical ticks
+              minRotation: 90, // Set maxRotation to 90 degrees for vertical ticks
             },
             axisColor: "rgb(255, 99, 132)",
           },
@@ -306,78 +336,89 @@ const ByProductCategory = ({
         />
       ) : (
         <Box
-            mt="20px"
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gridAutoRows="auto" // Adjust the row size as needed
-            gap="20px"
+          mt="20px"
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="auto" // Adjust the row size as needed
+          gap="20px"
+        >
+          <Box
+            gridColumn="span 12"
+            gridRow="span 1"
+            display="flex"
+            justifyContent="space-between"
+            borderRadius="0.55rem"
           >
-            <Box
-              gridColumn="span 12"
-              gridRow="span 1"
-              display="flex"
-              justifyContent="space-between"
-              borderRadius="0.55rem"
-            >
-              <div>
-                <Button
-                  variant="contained"
-                  onClick={handleSortClick}
-                  style={{ marginRight: "8px" }}
-                >
-                  Sort
-                </Button>
-                <Button variant="contained" onClick={handleBackButtonClick}>
-                  Back
-                </Button>
-              </div>
-              <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
-                backgroundColor={theme.palette.background.alt}
-                borderRadius="0.55rem"
-                p=".2rem .5rem"
+            <div>
+              <Button
+                variant="contained"
+                onClick={handleSortClick}
+                style={{ marginRight: "8px" }}
               >
-                <FlexBetween gap="1.2rem">
-                  <Typography variant="h4">Overall Sales: </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{ color: theme.palette.secondary.light }}
-                  >
-                    {formattedTotalAmount}
-                  </Typography>
-                </FlexBetween>
-              </Box>
-            </Box>
-
+                Sort
+              </Button>
+              <Button variant="contained" onClick={handleBackButtonClick}>
+                Back
+              </Button>
+            </div>
             <Box
-              gridColumn="span 12"
-              gridRow="span 2"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
               backgroundColor={theme.palette.background.alt}
-              p=".2rem"
               borderRadius="0.55rem"
-              sx={{ height: "80vh", width: "100%" }}
+              p=".2rem .5rem"
             >
-              {barChart}
-            </Box>
-            <Box
-              gridColumn="span 12"
-              gridRow="span 3"
-              backgroundColor={theme.palette.background.alt}
-              p=".2rem"
-              borderRadius="0.55rem"
-              sx={{ height: 400, mb: 5 }}
-            >
-              <DataGrid
-                rows={dataGridRows}
-                columns={dataGridColumns}
-                components={{
-                  Toolbar: GridToolbar,
-                }}
-              />
+              <FlexBetween gap="1.2rem">
+                <Typography variant="h4">Overall Sales: </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{ color: theme.palette.secondary.light }}
+                >
+                  {formattedTotalAmount}
+                </Typography>
+              </FlexBetween>
             </Box>
           </Box>
+
+          <Box
+            gridColumn="span 12"
+            gridRow="span 2"
+            backgroundColor={theme.palette.background.alt}
+            p=".2rem"
+            borderRadius="0.55rem"
+            sx={{ height: "80vh", width: "100%" }}
+          >
+            {barChart}
+          </Box>
+          <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              backgroundColor={theme.palette.background.alt}
+              borderRadius="0.55rem"
+              p=".2rem .5rem"
+              
+            >
+            {renderTotalAmounts()}
+          </Box>
+          <Box
+            gridColumn="span 12"
+            gridRow="span 3"
+            backgroundColor={theme.palette.background.alt}
+            p=".2rem"
+            borderRadius="0.55rem"
+            sx={{ height: 400, mb: 5 }}
+          >
+            <DataGrid
+              rows={dataGridRows}
+              columns={dataGridColumns}
+              components={{
+                Toolbar: GridToolbar,
+              }}
+            />
+          </Box>
+        </Box>
       )}
     </div>
   );

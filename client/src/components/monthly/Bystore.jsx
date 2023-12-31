@@ -132,7 +132,41 @@ const Bystore = () => {
   }, [originalData]);
 
   // Log the groupedData after it has been updated
-  console.log(groupedData);
+  // console.log(groupedData);
+
+  // Object to store total amount for each month
+  const totalAmountByMonth = {};
+
+  groupedData.forEach((item) => {
+    const month = item.Month;
+
+    if (!totalAmountByMonth[month]) {
+      totalAmountByMonth[month] = 0;
+    }
+
+    totalAmountByMonth[month] += item.Amount || 0;
+  });
+
+  // Render total amounts for each month
+  const renderTotalAmounts = () => {
+    return Object.entries(totalAmountByMonth).map(([month, amount]) => (
+      <FlexBetween key={month} gap="1.2rem">
+        <Typography variant="h5">{month}</Typography>
+        <Typography  variant="h6"
+                  sx={{ color: theme.palette.secondary.light }}>
+          {new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            maximumFractionDigits: 0, // Remove decimal part
+            minimumFractionDigits: 0, // Ensure at least 0 decimal places
+            useGrouping: true, // Enable grouping separator
+          }).format(amount)}
+        </Typography>
+      </FlexBetween>
+    ));
+  };
+
+  console.log(totalAmountByMonth);
   const storeData = {};
 
   groupedData.forEach((entry) => {
@@ -150,7 +184,7 @@ const Bystore = () => {
       storeData[storeName][month] = amount;
     }
   });
-  console.log(storeData);
+  // console.log(storeData);
   //{this one for handling the bar click : section}
   const handleSortClick = () => {
     // Sort the data based on the "Amount" property
@@ -222,7 +256,7 @@ const Bystore = () => {
                 size: 8,
               },
               color: "white",
-            }
+            },
           },
           datalabels: {
             display: true,
@@ -250,7 +284,6 @@ const Bystore = () => {
               color: theme.palette.secondary[200],
               font: { size: "8" },
               maxRotation: 90, // Set maxRotation to 90 degrees for vertical ticks
-              
             },
             gridLines: {
               color: "red",
@@ -278,7 +311,9 @@ const Bystore = () => {
       ref={chartRef}
       onClick={handleClick}
     />
-  ) : 'Loading';
+  ) : (
+    "Loading"
+  );
   return (
     <div>
       {condition ? (
@@ -289,53 +324,63 @@ const Bystore = () => {
         />
       ) : (
         <Box
-        mt="20px"
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="auto" // Adjust the row size as needed
-        gap="20px"
-      >
-        <Box
-          gridColumn="span 12"
-          gridRow="span 1"
-          display="flex"
-          justifyContent="space-between"
-          borderRadius="0.55rem"
+          mt="20px"
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="auto" // Adjust the row size as needed
+          gap="20px"
         >
-          <Button variant="contained" onClick={handleSortClick}>
-            Sort
-          </Button>
           <Box
+            gridColumn="span 12"
+            gridRow="span 1"
             display="flex"
-            flexDirection="column"
             justifyContent="space-between"
-            backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
-            p=".2rem .5rem"
           >
-            <FlexBetween gap="1.2rem">
-              <Typography variant="h4">Overall Sales: </Typography>
-              <Typography
-                variant="h5"
-                
-                sx={{ color: theme.palette.secondary.light }}
-              >
-                {formattedTotalAmount}
-              </Typography>
-            </FlexBetween>
+            <Button variant="contained" onClick={handleSortClick}>
+              Sort
+            </Button>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              backgroundColor={theme.palette.background.alt}
+              borderRadius="0.55rem"
+              p=".2rem .5rem"
+            >
+              <FlexBetween gap="1.2rem">
+                <Typography variant="h4">Overall Sales: </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{ color: theme.palette.secondary.light }}
+                >
+                  {formattedTotalAmount}
+                </Typography>
+              </FlexBetween>
+            </Box>
+          </Box>
+          <Box
+            gridColumn="span 12"
+            gridRow="span 2"
+            backgroundColor={theme.palette.background.alt}
+            p=".2rem"
+            borderRadius="0.55rem"
+            sx={{ height: "80vh", width: "100%"}}
+          >
+            {barChart}
+          </Box>
+          <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              backgroundColor={theme.palette.background.alt}
+              borderRadius="0.55rem"
+              p=".2rem .5rem"
+              marginBottom={5}
+            >
+            {renderTotalAmounts()}
           </Box>
         </Box>
-        <Box
-          gridColumn="span 12"
-          gridRow="span 2"
-          backgroundColor={theme.palette.background.alt}
-          p=".2rem"
-          borderRadius="0.55rem"
-          sx={{ height: "80vh", width: "100%", mb: 5 }}
-        >
-          {barChart}
-        </Box>
-      </Box>
       )}
     </div>
   );
