@@ -434,3 +434,73 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+// Dashboard Component Documentation
+// Introduction
+// The Dashboard component is a crucial part of the forecasting application designed for managing and visualizing sales data for five stores: Adyar, Chrompet, Shanti Colony, Sarath Mall, and Velacherry. Each store is further divided into seven departments, with various product categories and brands.
+
+// Installation
+// Ensure that you have the necessary dependencies installed:
+
+// bash
+// Copy code
+// npm install @mui/material @mui/x-data-grid react-chartjs-2 chart.js chartjs-plugin-datalabels
+// Usage
+// Import the Dashboard component and include it in your application:
+
+// jsx
+// Copy code
+// import Dashboard from 'path-to-your-dashboard-component';
+
+// // Inside your component or route
+// <Dashboard />
+// Features
+// Mui DataGrid Table:
+
+// Displays detailed sales data in a Material-UI DataGrid table with grid toolbar options.
+// Total Forecast Sales:
+
+// Provides an overview of total forecasted sales with monthly, yearly, and daily breakdowns.
+// Includes a comparison with past sales to highlight increases.
+// Top Ten Brands Bar Graph:
+
+// Visualizes the top ten brands based on sales in a bar graph.
+// Store-wise Pie Chart:
+
+// Represents the total sales of each store using a pie chart.
+// Data Fetching:
+
+// Utilizes asynchronous data fetching from the backend using the useGetDashboardQuery hook.
+// Code Structure
+// The component is organized into various sections:
+
+// Header and Toolbar:
+
+// Displays a header with the title "DASHBOARD" and subtitle.
+// Includes a toolbar with options (commented out in the code).
+// StatBoxes:
+
+// Presents key statistics such as total sales, sales today, monthly sales, and yearly sales.
+// OverviewChart:
+
+// Contains a chart for visualizing sales data (commented out in the code).
+// Bar Chart:
+
+// Renders a bar chart for the top ten brands based on sales.
+// DataGrid:
+
+// Utilizes Material-UI DataGrid to showcase detailed sales data.
+// BreakdownChart:
+
+// Displays a breakdown chart showing forecasted total sales by store.
+// Data Fetching
+// Fetches data from the backend API using the fetchForecastAsync action and useGetDashboardQuery hook.
+// Dependencies
+// Relies on various dependencies, including Material-UI, React-ChartJS, and Chart.js.
+// Deployment
+// Ensure that the backend API (http://127.0.0.1:5000/run_forecast) is accessible for data fetching.
+
+// Additional Considerations
+// Custom styling is applied using the MUI theme and media queries for responsive design.
+// Future Enhancements
+// Discuss any planned future enhancements or features.
